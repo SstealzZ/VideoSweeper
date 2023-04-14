@@ -1,4 +1,4 @@
-# Project Title
+# Video Sweeper
 
 ## Table of Contents
 
