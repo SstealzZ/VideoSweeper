@@ -11,6 +11,9 @@
 
 This project is simply to automate the compression of video files so that they take up less space. This can be very useful for the Plex library owner.
 
+## Sample Image
+![Exemple Image](https://github/sstealzz/VideoSweeper/image/exemple.png)
+
 ## Getting Started <a name = "getting_started"></a>
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
