@@ -12,7 +12,7 @@
 This project is simply to automate the compression of video files so that they take up less space. This can be very useful for the Plex library owner.
 
 ## Sample Image
-![Exemple Image](https://github/sstealzz/VideoSweeper/image/exemple.png)
+![Exemple Image](https://github.com/SstealzZ/VideoSweeper/blob/main/image/exemple.png)
 
 ## Getting Started <a name = "getting_started"></a>
 
