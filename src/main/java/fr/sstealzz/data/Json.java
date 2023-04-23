@@ -75,7 +75,19 @@ public class Json {
         }
     }
 
-    public static List<String> getNames(String path) {
+    public Data getDataByName(String name) throws IOException {
+        Gson gson = new Gson();
+        Type dataListType = new TypeToken<List<Data>>() {}.getType();
+        List<Data> dataList = gson.fromJson(new FileReader(file), dataListType);
+        for (Data data : dataList) {
+            if (data.getNameFile().equals(name)) {
+                return data;
+            }
+        }
+        return null;
+    }
+
+    public List<String> getNames(String path) {
         List<String> names = new ArrayList<>();
 
         Gson gson = new Gson();
