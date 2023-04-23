@@ -9,7 +9,7 @@ public class Data {
     private long sizeFile;
     private long compressedSizeFile;
 
-    public Data(String nameFile, long sizeFile, long compressedSizeFile, double compressionRatio, boolean isCompressed) {
+    public Data(String nameFile, long sizeFile, long compressedSizeFile) {
         this.nameFile = nameFile;
         this.sizeFile = sizeFile;
         this.compressedSizeFile = compressedSizeFile;
