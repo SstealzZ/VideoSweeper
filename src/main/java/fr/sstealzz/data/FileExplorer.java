@@ -24,9 +24,10 @@ public class FileExplorer {
                     findVideoFilesRecursive(file, videoFiles);
                 } else if (file.getName().endsWith(".mkv") || file.getName().endsWith(".mp4")) {
                     if (json.isExist(file.getName()) == false) {
-                        Data data = new Data("null", 0, 0);
+                        Data data = new Data("null", "null", 0, 0);
                         videoFiles.add(file);
                         data.setNameFile(file.getName());
+                        data.setPathFile(file.getAbsolutePath());
                         data.setSizeFile(file.length());
                         data.setCompressedSizeFile(file.length() + 1); // data is not compressed here add + 1 for future condition
                         json.append(data);
