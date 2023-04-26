@@ -27,8 +27,8 @@ public class FileExplorer {
                         Data data = new Data("null", 0, 0);
                         videoFiles.add(file);
                         data.setNameFile(file.getName());
-                        data.setSizeFile(file.getTotalSpace());
-                        data.setCompressedSizeFile(file.getTotalSpace() + 1); // data is not compressed here add + 1 for future condition
+                        data.setSizeFile(file.length());
+                        data.setCompressedSizeFile(file.length() + 1); // data is not compressed here add + 1 for future condition
                         json.append(data);
                         addCount();
                     }
