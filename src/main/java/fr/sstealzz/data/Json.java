@@ -103,4 +103,9 @@ public class Json {
 
         return names;
     }
+
+    public boolean isExist(String name) {
+        List<String> names = getNames("config.json");
+        return names.contains(name);
+    }
 }
