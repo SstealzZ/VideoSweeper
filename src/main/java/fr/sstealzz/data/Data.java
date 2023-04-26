@@ -26,6 +26,22 @@ public class Data {
     public long getSizeFile() {
         return sizeFile;
     }
+    
+    public long getSizeFileInMo() {
+        if (sizeFile < 1000000) {
+            return sizeFile;
+        } else {
+            return sizeFile / 1000000;
+        }
+    }
+
+    public long getSizeFileInGo() {
+        if (sizeFile < 1000000000) {
+            return getSizeFileInMo();
+        } else {
+            return sizeFile / 1000000000;
+        }
+    }
 
     public void setSizeFile(long sizeFile) {
         this.sizeFile = sizeFile;
