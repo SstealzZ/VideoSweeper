@@ -2,15 +2,17 @@ package fr.sstealzz.data;
 
 public class Data {
     public enum Types {
-        NameFile, SizeFile, CompressedSizeFile, CompressionRatio, isCompressed, SizeFileInMo, SizeFileInGo
+        NameFile, SizeFile, CompressedSizeFile, CompressionRatio, isCompressed, SizeFileInMo, SizeFileInGo, pathFile
     }
 
     private String nameFile;
     private long sizeFile;
     private long compressedSizeFile;
+    private String pathFile;
 
-    public Data(String nameFile, long sizeFile, long compressedSizeFile) {
+    public Data(String nameFile, String pathFile, long sizeFile, long compressedSizeFile) {
         this.nameFile = nameFile;
+        this.pathFile = pathFile;
         this.sizeFile = sizeFile;
         this.compressedSizeFile = compressedSizeFile;
     }
@@ -61,6 +63,14 @@ public class Data {
 
     public boolean isCompressed() {
         return compressedSizeFile < sizeFile;
+    }
+
+    public String getPathFile() {
+        return pathFile;
+    }
+
+    public void setPathFile(String pathFile) {
+        this.pathFile = pathFile;
     }
 
 }
