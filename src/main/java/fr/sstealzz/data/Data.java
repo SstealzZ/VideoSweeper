@@ -2,7 +2,7 @@ package fr.sstealzz.data;
 
 public class Data {
     public enum Types {
-        NameFile, SizeFile, CompressedSizeFile, CompressionRatio, isCompressed
+        NameFile, SizeFile, CompressedSizeFile, CompressionRatio, isCompressed, SizeFileInMo, SizeFileInGo
     }
 
     private String nameFile;
