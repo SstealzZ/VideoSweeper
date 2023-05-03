@@ -75,6 +75,13 @@ public class Json {
         }
     }
 
+    public List<Data> getData() throws IOException {
+        Gson gson = new Gson();
+        Type dataListType = new TypeToken<List<Data>>() {}.getType();
+        List<Data> dataList = gson.fromJson(new FileReader(file), dataListType);
+        return dataList;
+    }
+
     public Data getDataByName(String name) throws IOException {
         Gson gson = new Gson();
         Type dataListType = new TypeToken<List<Data>>() {}.getType();
