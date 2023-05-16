@@ -8,7 +8,7 @@ import fr.sstealzz.data.Data;
 import fr.sstealzz.data.FileExplorer;
 import fr.sstealzz.data.Json;
 import fr.sstealzz.utilities.Compressor;
-import fr.sstealzz.utilities.Init;
+import fr.sstealzz.utilities.Menu;
 
 /**
  * Hello world!
@@ -23,7 +23,7 @@ public class App
         List<File> files = fileExplorer.findVideoFiles();
         List<Data> datas = json.getData();
         Compressor compressor = new Compressor();
-        Init init = new Init();
+        Menu init = new Menu();
         init.Init(files, datas, fileExplorer);
         // Test test = new Test();
         // test.testJson("config.json");
