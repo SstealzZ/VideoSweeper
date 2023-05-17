@@ -66,7 +66,7 @@ public class Menu {
             System.out.println(ColorText.ANSI_GREEN + "You have " + count + " new video files found !" + ColorText.ANSI_RESET);
         }
         if (fileNotCompressed != 0) {
-            System.out.println(ColorText.ANSI_RED + "You have " + fileNotCompressed + " video files not compressed !" + ColorText.ANSI_RESET);
+            System.out.println(ColorText.ANSI_RED + "You have " + fileNotCompressed + " video files not compressed !" + ColorText.ANSI_RESET + " (" + getAllCompressedSize(datas) + " GB)");
         }
         ColorText.SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !! ");
         
@@ -87,6 +87,18 @@ public class Menu {
             }
         }
         return i;
+    }
+
+    private float getAllCompressedSize(List<Data> datas) throws IOException {
+        long totalCompressedSizeInBytes = 0;
+        for (Data data : datas) {
+            if (data.isCompressed() == false)
+                totalCompressedSizeInBytes += data.getCompressedSizeFile();
+        }
+        float totalCompressedSizeInKB = totalCompressedSizeInBytes / 1000.0f;
+        float totalCompressedSizeInGB = totalCompressedSizeInKB / 1000000.0f;
+        totalCompressedSizeInGB = Math.round(totalCompressedSizeInGB * 1000.0f) / 1000.0f;
+        return totalCompressedSizeInGB;
     }
     
 }
