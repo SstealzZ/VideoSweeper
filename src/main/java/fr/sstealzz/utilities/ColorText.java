@@ -11,4 +11,11 @@ public class ColorText {
     public static final String ANSI_PURPLE = ANSI_BOLD + "\u001B[35m";
     public static final String ANSI_CYAN = ANSI_BOLD + "\u001B[36m";
     public static final String ANSI_WHITE = ANSI_BOLD + "\u001B[37m";
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 }
+
+
