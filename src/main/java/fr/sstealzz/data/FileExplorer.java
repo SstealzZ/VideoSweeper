@@ -21,6 +21,15 @@ public class FileExplorer {
     private void findVideoFilesRecursive(File directory, List<File> videoFiles) {
         File[] files = directory.listFiles();
         Json json = new Json("config.json");
+        ColorText.clearScreen();
+        if (getCount() == 0) {
+            ColorText.clearScreen();
+            ColorText.SeparateTerminalLine(State.SUCCESS, "Initialization of FileList");
+        }
+        if (getCount() != 0) {
+            ColorText.clearScreen();
+            ColorText.SeparateTerminalLine(State.SUCCESS, "Initialization of FileFinder -- New File found: " + getCount());
+        }
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
@@ -34,8 +43,6 @@ public class FileExplorer {
                         data.setSizeFile(file.length());
                         data.setCompressedSizeFile(file.length() + 1); // data is not compressed here add + 1 for future condition
                         json.append(data);
-                        ColorText.clearScreen();
-                        ColorText.SeparateTerminalLine(State.SUCCESS, "File found: " + getCount());
                         addCount();
                     }
                 }
