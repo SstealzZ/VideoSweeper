@@ -8,12 +8,9 @@ import java.util.Scanner;
 import fr.sstealzz.data.Data;
 import fr.sstealzz.data.FileExplorer;
 import fr.sstealzz.data.Json;
+import fr.sstealzz.utilities.ColorText.State;
 
 public class Menu {
-
-    enum State {
-        SUCCESS, ERROR
-    }
 
     public void Init(List<File> files, List<Data> datas, FileExplorer fileExplorer) throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -26,32 +23,36 @@ public class Menu {
             switch (choice) {
                 case "1":
                     ColorText.clearScreen();
-                    SeparateTerminalLine(State.SUCCESS, "Compressing all video files not compressed");
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "Compressing all video files not compressed");
                     break;
                 case "2":
                     ColorText.clearScreen();
-                    SeparateTerminalLine(State.SUCCESS, "List all video files found");
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "List all video files found");
                     json.getData().forEach(data -> {
                         if (data.isCompressed())
                             System.out.println(ColorText.ANSI_GREEN + "[OK] " + data.getNameFile() + ColorText.ANSI_RESET);
                         else
                             System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_RESET);
                     });
-                    SeparateTerminalLine(State.SUCCESS, "End of list");
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "End of list");
                     break;
                 case "3":
                     ColorText.clearScreen();
-                    SeparateTerminalLine(State.SUCCESS, "List all video files not compressed");
-                    SeparateTerminalLine(State.SUCCESS, "End of list");
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "List all video files not compressed");
+                    json.getData().forEach(data -> {
+                        if (!data.isCompressed())
+                            System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_RESET);
+                    });
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "End of list");
                     break;
                 case "4":
                     ColorText.clearScreen();
-                    SeparateTerminalLine(State.SUCCESS, "Exit");
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "Exit");
                     System.exit(0);
                     break;
                 default:
                     ColorText.clearScreen();
-                    SeparateTerminalLine(State.ERROR, "Invalid choice");
+                    ColorText.SeparateTerminalLine(State.ERROR, "Invalid choice");
                     break;
             }
         }
@@ -67,7 +68,7 @@ public class Menu {
         if (fileNotCompressed != 0) {
             System.out.println(ColorText.ANSI_RED + "You have " + fileNotCompressed + " video files not compressed !" + ColorText.ANSI_RESET);
         }
-        SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !! ");
+        ColorText.SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !! ");
         
     }
 
@@ -86,23 +87,6 @@ public class Menu {
             }
         }
         return i;
-    }
-
-    private void SeparateTerminalLine(State state, String text){
-        System.out.print("------------------------------------------------------------------------");
-        if (state == State.ERROR) {
-            System.out.print(ColorText.ANSI_RED + "\n" + text + "\n" + ColorText.ANSI_RESET);
-            System.out.println("------------------------------------------------------------------------");
-        }
-        else if (state == State.SUCCESS) {
-            System.out.print(ColorText.ANSI_GREEN + "\n" + text + "\n" + ColorText.ANSI_RESET);
-            System.out.println("------------------------------------------------------------------------");
-        }
-        else {
-
-            System.out.print(ColorText.ANSI_YELLOW + "\n" + text + "\n" + ColorText.ANSI_RESET);
-            System.out.println("------------------------------------------------------------------------");
-        }
     }
     
 }
