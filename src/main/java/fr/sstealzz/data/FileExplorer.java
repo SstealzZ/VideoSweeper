@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.sstealzz.utilities.ColorText;
+import fr.sstealzz.utilities.ColorText.State;
+
 public class FileExplorer {
 
     private int count;
@@ -31,6 +34,8 @@ public class FileExplorer {
                         data.setSizeFile(file.length());
                         data.setCompressedSizeFile(file.length() + 1); // data is not compressed here add + 1 for future condition
                         json.append(data);
+                        ColorText.clearScreen();
+                        ColorText.SeparateTerminalLine(State.SUCCESS, "File found: " + getCount());
                         addCount();
                     }
                 }
