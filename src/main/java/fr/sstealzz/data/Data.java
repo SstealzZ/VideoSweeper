@@ -73,4 +73,11 @@ public class Data {
         this.pathFile = pathFile;
     }
 
+    public boolean isCorrupted(String NameFile) {
+        if (NameFile.contains("-tmp")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
