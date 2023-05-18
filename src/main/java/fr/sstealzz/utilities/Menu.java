@@ -88,10 +88,9 @@ public class Menu {
             System.out.println(ColorText.ANSI_GREEN + "You have " + count + " new video files found !" + ColorText.ANSI_RESET);
         }
         if (fileNotCompressed != 0) {
-            System.out.println(ColorText.ANSI_RED + "You have " + fileNotCompressed + " video files not compressed !" + ColorText.ANSI_RESET + " (" + getAllCompressedSize(datas) + " GB)");
+            System.out.println(ColorText.ANSI_CYAN + "You have " + fileNotCompressed + " video files not compressed !" + ColorText.ANSI_RESET + " (" + getAllCompressedSize(datas) + " GB)");
         }
         ColorText.SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !!" + "\n" + ColorText.ANSI_CYAN + "All video size : " + " (" + getAllSize(datas) + " GB)" + ColorText.ANSI_RESET);
-        
     }
 
     private void printChoice() {
