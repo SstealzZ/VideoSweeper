@@ -42,8 +42,14 @@ public class FileExplorer {
                         data.setPathFile(file.getAbsolutePath());
                         data.setSizeFile(file.length());
                         data.setCompressedSizeFile(file.length() + 1); // data is not compressed here add + 1 for future condition
-                        json.append(data);
-                        addCount();
+                        if (data.isCorrupted(data.getNameFile()) == true) {
+                            file.delete();
+                            data.addCorruptedCount();
+                        }
+                        else {
+                            json.append(data);
+                            addCount();
+                        }
                     }
                 }
             }
