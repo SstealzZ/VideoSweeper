@@ -65,7 +65,7 @@ public class Json {
         return dataList;
     }
 
-    public void write(List<Object> dataList) {
+    public void write(List<Data> dataList) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try (FileWriter writer = new FileWriter(file)) {

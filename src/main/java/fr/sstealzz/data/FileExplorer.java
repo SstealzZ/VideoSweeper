@@ -61,6 +61,5 @@ public class FileExplorer {
     public void addCount() {
         this.count++;
     }
-
 }
 
