@@ -24,6 +24,19 @@ public class Menu {
                 case "1":
                     ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Compressing all video files not compressed");
+                    datas.forEach(data -> {
+                        if (!data.isCompressed()) {
+                            try {
+                                Compressor.compress_mkv(data.getPathFile());
+                                data.setCompressedSizeFile(new File(data.getPathFile()).length());
+                                json.write(datas);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    ColorText.clearScreen();
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "End of compression");
                     break;
                 case "2":
                     ColorText.clearScreen();
@@ -49,6 +62,15 @@ public class Menu {
                     ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Exit");
                     System.exit(0);
+                    break;
+                case "99":
+                    ColorText.clearScreen();
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "Check if data is corrupted");
+                    json.getData().forEach(data -> {
+                        if (data.isCorrupted(data.getNameFile()))
+                            System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_RESET);
+                    });
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "End of list");
                     break;
                 default:
                     ColorText.clearScreen();
