@@ -48,14 +48,15 @@ public class Compressor {
             
                     // Print out interesting information about the progress
                     System.out.println(String.format(
-                        "[%.0f%%] status:%s frame:%d time:%s ms fps:%.0f speed:%.2fx",
-                        percentage * 100,
-                        progress.status,
-                        progress.frame,
-                        FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
-                        progress.fps.doubleValue(),
-                        progress.speed
-                    ));
+                    "[%.0f%%] status:%s frame:%s time:%s ms fps:%.0f speed:%.2fx",
+                    percentage * 100,
+                    ColorText.ANSI_CYAN + progress.status + ColorText.ANSI_RESET,
+                    ColorText.ANSI_YELLOW + progress.frame + ColorText.ANSI_RESET,
+                    FFmpegUtils.toTimecode(progress.out_time_ns, TimeUnit.NANOSECONDS),
+                    progress.fps.doubleValue(),
+                    progress.speed
+                ));
+
                 }
             });
             
