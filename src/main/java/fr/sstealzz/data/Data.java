@@ -9,6 +9,7 @@ public class Data {
     private long sizeFile;
     private long compressedSizeFile;
     private String pathFile;
+    private int corruptedCount;
 
     public Data(String nameFile, String pathFile, long sizeFile, long compressedSizeFile) {
         this.nameFile = nameFile;
@@ -79,5 +80,17 @@ public class Data {
         } else {
             return false;
         }
+    }
+
+    public int getCorruptedCount() {
+        return corruptedCount;
+    }
+
+    public void setCorruptedCount(int corruptedCount) {
+        this.corruptedCount = corruptedCount;
+    }
+
+    public void addCorruptedCount() {
+        this.corruptedCount++;
     }
 }
