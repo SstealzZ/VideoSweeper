@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import fr.sstealzz.data.Data;
 import fr.sstealzz.data.FileExplorer;
@@ -23,6 +24,7 @@ public class Menu {
             switch (choice) {
                 case "1":
                     ColorText.clearScreen();
+                    long start = System.currentTimeMillis();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Compressing all video files not compressed");
                     datas.forEach(data -> {
                         if (!data.isCompressed()) {
@@ -36,6 +38,8 @@ public class Menu {
                         }
                     });
                     ColorText.clearScreen();
+                    long end = System.currentTimeMillis();
+                    getTime(start, end);
                     ColorText.SeparateTerminalLine(State.SUCCESS, "End of compression");
                     break;
                 case "2":
@@ -146,4 +150,15 @@ public class Menu {
         }
     }
 
+    private void getTime(long startTime, long endTime) {
+        long duration = (endTime - startTime);
+        long durationInMs = TimeUnit.MILLISECONDS.toMillis(duration);
+        long durationInSec = TimeUnit.MILLISECONDS.toSeconds(duration);
+        long durationInMin = TimeUnit.MILLISECONDS.toMinutes(duration);
+        long durationInHour = TimeUnit.MILLISECONDS.toHours(duration);
+        long durationInDay = TimeUnit.MILLISECONDS.toDays(duration);
+        System.out.println("------------------------------------------------------------------------");
+        System.out.println(ColorText.ANSI_CYAN + "Time : " + durationInDay + "d " + durationInHour + "h " + durationInMin + "m " + durationInSec + "s " + durationInMs + "ms" + ColorText.ANSI_RESET);
+    }
+    
 }
