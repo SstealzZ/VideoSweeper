@@ -9,7 +9,6 @@ public class Data {
     private long sizeFile;
     private long compressedSizeFile;
     private String pathFile;
-    private int corruptedCount;
 
     public Data(String nameFile, String pathFile, long sizeFile, long compressedSizeFile) {
         this.nameFile = nameFile;
@@ -38,12 +37,20 @@ public class Data {
         }
     }
 
-    public long getSizeFileInGo() {
-        if (sizeFile < 1000000000) {
-            return getSizeFileInMo();
-        } else {
-            return sizeFile / 1000000000;
-        }
+    public float getSizeFileInGo() {
+        long totalSizeInBytes = this.sizeFile;
+        float totalSizeInKB = totalSizeInBytes / 1000.0f;
+        float totalSizeInGB = totalSizeInKB / 1000000.0f;
+        totalSizeInGB = Math.round(totalSizeInGB * 1000.0f) / 1000.0f;
+        return totalSizeInGB;
+    }
+
+    public float getCompressedSizeFileInGo() {
+        long totalSizeInBytes = this.compressedSizeFile;
+        float totalSizeInKB = totalSizeInBytes / 1000.0f;
+        float totalSizeInGB = totalSizeInKB / 1000000.0f;
+        totalSizeInGB = Math.round(totalSizeInGB * 1000.0f) / 1000.0f;
+        return totalSizeInGB;
     }
 
     public void setSizeFile(long sizeFile) {
@@ -63,7 +70,15 @@ public class Data {
     }
 
     public boolean isCompressed() {
-        return compressedSizeFile < sizeFile;
+        return compressedSizeFile <= sizeFile;
+    }
+
+    public boolean isCompressedBigger() {
+        return compressedSizeFile > sizeFile + 1;
+    }
+
+    public boolean isCompressedEqual() {
+        return compressedSizeFile == sizeFile;
     }
 
     public String getPathFile() {
@@ -80,17 +95,5 @@ public class Data {
         } else {
             return false;
         }
-    }
-
-    public int getCorruptedCount() {
-        return corruptedCount;
-    }
-
-    public void setCorruptedCount(int corruptedCount) {
-        this.corruptedCount = corruptedCount;
-    }
-
-    public void addCorruptedCount() {
-        this.corruptedCount++;
     }
 }
