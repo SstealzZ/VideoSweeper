@@ -18,8 +18,8 @@ import net.bramp.ffmpeg.progress.ProgressListener;
 public class Compressor {
 
     public static void compress_mkv(String path) throws IOException {
-        FFmpeg ffmpeg = new FFmpeg("/bin/ffmpeg");
-        FFprobe ffprobe = new FFprobe("/bin/ffprobe");
+        FFmpeg ffmpeg = new FFmpeg("/bin/ffmpeg"); // Change this path to your ffmpeg path
+        FFprobe ffprobe = new FFprobe("/bin/ffprobe"); // Change this path to your ffprobe path
         
         File file = new File(path);
         File output = new File(path.substring(0, path.lastIndexOf(".")) + "-tmp" + path.substring(path.lastIndexOf(".")));
@@ -62,8 +62,14 @@ public class Compressor {
             
         job.run();
 
-        System.out.println(ColorText.ANSI_GREEN + "Compressed " + file.getName() + " successfully !" + ColorText.ANSI_RESET);
-        file.delete();
-        output.renameTo(file);
+        if (file.length() <= output.length()) {
+            System.out.println(ColorText.ANSI_RED + "Compressed file (" + file .getName() + ") is bigger than original file !" + ColorText.ANSI_RESET);
+            output.delete();
+        }
+        else {
+            System.out.println(ColorText.ANSI_GREEN + "Compressed " + file.getName() + " successfully !" + ColorText.ANSI_RESET);
+            file.delete();
+            output.renameTo(file);
+        }
     }
 }
