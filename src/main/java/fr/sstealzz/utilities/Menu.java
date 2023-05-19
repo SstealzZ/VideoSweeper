@@ -43,9 +43,11 @@ public class Menu {
                     ColorText.SeparateTerminalLine(State.SUCCESS, "List all video files found");
                     json.getData().forEach(data -> {
                         if (data.isCompressed())
-                            System.out.println(ColorText.ANSI_GREEN + "[OK] " + data.getNameFile() + ColorText.ANSI_RESET);
+                            System.out.println(getAnsiColor(data) + "[OK] " + data.getNameFile() + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + data.getSizeFileInGo() + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_WHITE + " ->" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_GREEN + data.getCompressedSizeFileInGo() + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
+                        else if (data.isCompressedBigger())
+                            System.out.println(ColorText.ANSI_YELLOW + "[!!] " + data.getNameFile() + ColorText.ANSI_RESET);
                         else
-                            System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_RESET);
+                            System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + data.getSizeFileInGo() + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
                     });
                     ColorText.SeparateTerminalLine(State.SUCCESS, "End of list");
                     break;
@@ -54,7 +56,7 @@ public class Menu {
                     ColorText.SeparateTerminalLine(State.SUCCESS, "List all video files not compressed");
                     json.getData().forEach(data -> {
                         if (!data.isCompressed())
-                            System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_RESET);
+                            System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + data.getSizeFileInGo() + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
                     });
                     ColorText.SeparateTerminalLine(State.SUCCESS, "End of list");
                     break;
@@ -133,4 +135,15 @@ public class Menu {
         return totalCompressedSizeInGB;
     }
     
+    private String getAnsiColor(Data data) {
+        if (data.isCompressedEqual())
+            return ColorText.ANSI_YELLOW;
+        else {
+            if (data.isCompressed())
+                return ColorText.ANSI_GREEN;
+            else
+                return ColorText.ANSI_RED;
+        }
+    }
+
 }
