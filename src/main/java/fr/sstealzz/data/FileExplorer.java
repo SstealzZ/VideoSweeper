@@ -43,7 +43,7 @@ public class FileExplorer {
                         data.setSizeFile(file.length());
                         data.setCompressedSizeFile(file.length() + 1); // data is not compressed here add + 1 for future condition
                         if (data.isCorrupted(data.getNameFile()) == true) {
-                            file.delete();
+                            continue;
                         }
                         else {
                             json.append(data);
