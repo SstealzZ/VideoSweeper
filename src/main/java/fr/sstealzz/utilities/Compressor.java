@@ -27,9 +27,10 @@ public class Compressor {
 
         FFmpegProbeResult probeResult = ffprobe.probe(file.getAbsolutePath());
         
-        System.out.println(getVideoFrameRate(probeResult, file));
-        System.out.println(getVideoWidth(probeResult, file));
-        System.out.println(getVideoHeight(probeResult, file));
+        // Test to get video informations
+        // System.out.println(getVideoFrameRate(probeResult, file));
+        // System.out.println(getVideoWidth(probeResult, file));
+        // System.out.println(getVideoHeight(probeResult, file));
 
         FFmpegBuilder builder = new FFmpegBuilder()
             .setInput(file.getAbsolutePath())
@@ -79,7 +80,7 @@ public class Compressor {
 
     private static Fraction getVideoFrameRate(FFmpegProbeResult probeResult, File file) throws IOException {
         int i = 0;
-        while (probeResult.getStreams().get(i).avg_frame_rate == null) {
+        while (probeResult.getStreams().get(i).avg_frame_rate.floatValue() == 0) {
             i++;
         }
         return probeResult.getStreams().get(i).avg_frame_rate;
