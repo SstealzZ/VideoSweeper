@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.math.Fraction;
+
 import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFmpegUtils;
@@ -11,7 +13,6 @@ import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.job.FFmpegJob;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
-import net.bramp.ffmpeg.probe.FFmpegStream;
 import net.bramp.ffmpeg.progress.Progress;
 import net.bramp.ffmpeg.progress.ProgressListener;
 
@@ -25,15 +26,18 @@ public class Compressor {
         File output = new File(path.substring(0, path.lastIndexOf(".")) + "-tmp" + path.substring(path.lastIndexOf(".")));
 
         FFmpegProbeResult probeResult = ffprobe.probe(file.getAbsolutePath());
-        FFmpegStream stream = probeResult.getStreams().get(0);
+        
+        System.out.println(getVideoFrameRate(probeResult, file));
+        System.out.println(getVideoWidth(probeResult, file));
+        System.out.println(getVideoHeight(probeResult, file));
 
         FFmpegBuilder builder = new FFmpegBuilder()
             .setInput(file.getAbsolutePath())
             .overrideOutputFiles(true)
             .addOutput(output.getAbsolutePath())
             .setVideoCodec("libx264")
-            .setVideoFrameRate(stream.avg_frame_rate.floatValue())
-            .setVideoResolution(stream.width, stream.height)
+            .setVideoFrameRate(getVideoFrameRate(probeResult, file).floatValue())
+            .setVideoResolution(getVideoWidth(probeResult, file), getVideoHeight(probeResult, file))
             .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
             .done();
 
@@ -71,5 +75,29 @@ public class Compressor {
             file.delete();
             output.renameTo(file);
         }
+    }
+
+    private static Fraction getVideoFrameRate(FFmpegProbeResult probeResult, File file) throws IOException {
+        int i = 0;
+        while (probeResult.getStreams().get(i).avg_frame_rate == null) {
+            i++;
+        }
+        return probeResult.getStreams().get(i).avg_frame_rate;
+    }
+
+    private static int getVideoWidth(FFmpegProbeResult probeResult, File file) throws IOException {
+        int i = 0;
+        while (probeResult.getStreams().get(i).width == 0) {
+            i++;
+        }
+        return probeResult.getStreams().get(i).width;
+    }
+
+    private static int getVideoHeight(FFmpegProbeResult probeResult, File file) throws IOException {
+        int i = 0;
+        while (probeResult.getStreams().get(i).height == 0) {
+            i++;
+        }
+        return probeResult.getStreams().get(i).height;
     }
 }
