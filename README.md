@@ -36,7 +36,7 @@ Here are the possible options:
 ![Startup Display](image/Startup.png)
 #### Option-2 Display
 ![Option-2 Display](image/Option-2.png)
-- Vert means that the file is compressed
+- Green means that the file is compressed
 - Red means uncompressed
 - Yellow means that compression couldn't do any better than the original file
 #### Option-3 Display
