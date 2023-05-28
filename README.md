@@ -26,7 +26,7 @@ The program runs like this and we can see its various functions.
 java -jar videosweeper-1.1.2-jar-with-dependencies.jar
 ```
 
-Voici les options possible:
+Here are the possible options:
 - 1 Compress all video files not compressed
 - 2 List all video files found
 - 3 List all video files not compressed
