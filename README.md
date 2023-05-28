@@ -32,13 +32,11 @@ Voici les options possible:
 [3] - List all video files not compressed
 [4] - Exit
 
-Startup Display:
-<img src="image/Startup.png" height="258">
-Option-2 Display:
-<img src="image/Option-2.png">
-Option-3 Display:
-<img src="image/Option-3.png" height="266">
+![Startup Display](image/Startup.png)
 
+![Option-2 Display](image/Option-2.png)
+
+![Option-3 Display](image/Option-3.png)
 
 ### Prerequisites <a name = "prec"></a>
 
