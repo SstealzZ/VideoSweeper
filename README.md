@@ -27,15 +27,18 @@ java -jar videosweeper-1.1.2-jar-with-dependencies.jar
 ```
 
 Voici les options possible:
-[1] - Compress all video files not compressed
-[2] - List all video files found
-[3] - List all video files not compressed
-[4] - Exit
+- 1 Compress all video files not compressed
+- 2 List all video files found
+- 3 List all video files not compressed
+- 4 Exit
 
 #### Startup Display
 ![Startup Display](image/Startup.png)
 #### Option-2 Display
 ![Option-2 Display](image/Option-2.png)
+- Vert means that the file is compressed
+- Red means uncompressed
+- Yellow means that compression couldn't do any better than the original file
 #### Option-3 Display
 ![Option-3 Display](image/Option-3.png)
 
