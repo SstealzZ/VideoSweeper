@@ -75,4 +75,4 @@ You'll need to install maven in order to compile the program with this command a
 mvn install
 ```
 
-You will then have a target file in which your jar file with the dependencies will be generated.
+You will then have a target folder in which your jar file with the dependencies will be generated.
