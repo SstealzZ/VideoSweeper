@@ -119,7 +119,10 @@ public class Menu {
     private float getAllSize(List<Data> datas) throws IOException {
         long totalSizeInBytes = 0;
         for (Data data : datas) {
-            totalSizeInBytes += data.getSizeFile();
+            if (data.isCompressed() == false)
+                totalSizeInBytes += data.getSizeFile();
+            else
+                totalSizeInBytes += data.getCompressedSizeFile();
         }
         float totalSizeInKB = totalSizeInBytes / 1000.0f;
         float totalSizeInGB = totalSizeInKB / 1000000.0f;
