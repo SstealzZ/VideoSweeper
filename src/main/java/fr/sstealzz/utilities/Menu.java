@@ -96,7 +96,7 @@ public class Menu {
         if (fileNotCompressed != 0) {
             System.out.println(ColorText.ANSI_CYAN + "You have " + fileNotCompressed + " video files not compressed !" + ColorText.ANSI_RESET + " (" + getAllCompressedSize(datas) + " GB)");
         }
-        ColorText.SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !!" + "\n" + ColorText.ANSI_CYAN + "All video size : " + " (" + getAllSize(datas) + " GB)" + ColorText.ANSI_RESET);
+        ColorText.SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !!" + "\n" + ColorText.ANSI_CYAN + "All video size : " + " (" + getAllSize(datas) + " GB) " + "Compression Rate: " + getCompressedRatioPercent(datas) + "%" + ColorText.ANSI_RESET);
     }
 
     private void printChoice() {
@@ -115,6 +115,23 @@ public class Menu {
         }
         return i;
     }
+
+    private float getCompressedRatioPercent(List<Data> datas) throws IOException {
+        float compressedRatio = 0;
+        int compressedDataCount = 0;
+    
+        for (Data data : datas) {
+            if (data.isCompressed()) {
+                compressedRatio += ((data.getSizeFile() - data.getCompressedSizeFile()) / (float) data.getSizeFile());
+                compressedDataCount++;
+            }
+        }
+
+        compressedRatio = (compressedRatio / compressedDataCount) * 100;
+    
+        return compressedRatio;
+    }
+    
     
     private float getAllSize(List<Data> datas) throws IOException {
         long totalSizeInBytes = 0;
@@ -128,6 +145,18 @@ public class Menu {
         float totalSizeInGB = totalSizeInKB / 1000000.0f;
         totalSizeInGB = Math.round(totalSizeInGB * 1000.0f) / 1000.0f;
         return totalSizeInGB;
+    }
+
+    private float getAllUnCompressedSize(List<Data> datas) throws IOException {
+        long totalUnCompressedSizeInBytes = 0;
+        for (Data data : datas) {
+            if (data.isCompressed() == false)
+                totalUnCompressedSizeInBytes += data.getSizeFile();
+        }
+        float totalUnCompressedSizeInKB = totalUnCompressedSizeInBytes / 1000.0f;
+        float totalUnCompressedSizeInGB = totalUnCompressedSizeInKB / 1000000.0f;
+        totalUnCompressedSizeInGB = Math.round(totalUnCompressedSizeInGB * 1000.0f) / 1000.0f;
+        return totalUnCompressedSizeInGB;
     }
 
     private float getAllCompressedSize(List<Data> datas) throws IOException {
