@@ -66,6 +66,12 @@ public class Menu {
                     break;
                 case "4":
                     ColorText.clearScreen();
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "Data Info");
+                    printInfo(datas, fileExplorer);
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "End of info");
+                    break;
+                case "5":
+                    ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Exit");
                     System.exit(0);
                     break;
@@ -86,6 +92,18 @@ public class Menu {
         }
     }
 
+    private void printInfo(List<Data> datas, FileExplorer fileExplorer) throws IOException {
+        Integer count = fileExplorer.getCount();
+        
+        System.out.println(ColorText.ANSI_CYAN + "Video files found: " + count + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_CYAN + "All Size: " + getAllSize(datas) + " Go");
+        System.out.println(ColorText.ANSI_CYAN +"Average Size save: " + getCompressedRatioPercent(datas) + "%" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + getCountCompressedFile(datas) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_WHITE + " ->" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_GREEN + getCountUncompressedFile(datas) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_RED + "Uncompressed Size: " + getAllUnCompressedSize(datas) + " Go" + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_GREEN + "Compressed Size: " + getAllCompressedSize(datas) + " Go" + ColorText.ANSI_RESET);
+
+
+    }
+
     private void printInit(List<File> files, List<Data> datas, FileExplorer fileExplorer) throws IOException {
         Integer count = fileExplorer.getCount();
         Integer fileNotCompressed = getFileNotCompressed(datas);
@@ -96,14 +114,15 @@ public class Menu {
         if (fileNotCompressed != 0) {
             System.out.println(ColorText.ANSI_CYAN + "You have " + fileNotCompressed + " video files not compressed !" + ColorText.ANSI_RESET + " (" + getAllCompressedSize(datas) + " GB)");
         }
-        ColorText.SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !!" + "\n" + ColorText.ANSI_CYAN + "All video size : " + " (" + getAllSize(datas) + " GB) " + "Compression Rate: " + getCompressedRatioPercent(datas) + "%" + ColorText.ANSI_RESET);
+        ColorText.SeparateTerminalLine(State.SUCCESS, "Init Success, Now you have to choose an option !!" + "\n" + ColorText.ANSI_CYAN + "All video size : " + " (" + getAllSize(datas) + " GB) " + ColorText.ANSI_RESET);
     }
 
     private void printChoice() {
         System.out.println(ColorText.ANSI_GREEN + "[1] - Compress all video files not compressed");
         System.out.println(ColorText.ANSI_YELLOW  + "[2] - List all video files found");
         System.out.println(ColorText.ANSI_YELLOW  + "[3] - List all video files not compressed");
-        System.out.println(ColorText.ANSI_RED  + "[4] - Exit" + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_YELLOW  + "[4] - Data Info");
+        System.out.println(ColorText.ANSI_RED  + "[5] - Exit" + ColorText.ANSI_RESET);
     }
 
     private int getFileNotCompressed(List<Data> datas) throws IOException{
@@ -132,7 +151,26 @@ public class Menu {
         return compressedRatio;
     }
     
-    
+    private int getCountCompressedFile(List<Data> datas) throws IOException {
+        int i = 0;
+        for (Data data : datas) {
+            if (data.isCompressed() == true) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    private int getCountUncompressedFile(List<Data> datas) throws IOException {
+        int i = 0;
+        for (Data data : datas) {
+            if (data.isCompressed() == false) {
+                i++;
+            }
+        }
+        return i;
+    }
+
     private float getAllSize(List<Data> datas) throws IOException {
         long totalSizeInBytes = 0;
         for (Data data : datas) {
@@ -162,7 +200,7 @@ public class Menu {
     private float getAllCompressedSize(List<Data> datas) throws IOException {
         long totalCompressedSizeInBytes = 0;
         for (Data data : datas) {
-            if (data.isCompressed() == false)
+            if (data.isCompressed() == true)
                 totalCompressedSizeInBytes += data.getCompressedSizeFile();
         }
         float totalCompressedSizeInKB = totalCompressedSizeInBytes / 1000.0f;
