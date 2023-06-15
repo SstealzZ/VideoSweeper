@@ -93,11 +93,11 @@ public class Menu {
     }
 
     private void printInfo(List<Data> datas, FileExplorer fileExplorer) throws IOException {
-        Integer count = fileExplorer.getCount();
+        Integer count = datas.size();
         
         System.out.println(ColorText.ANSI_CYAN + "Video files found: " + count + ColorText.ANSI_RESET);
         System.out.println(ColorText.ANSI_CYAN + "All Size: " + getAllSize(datas) + " Go");
-        System.out.println(ColorText.ANSI_CYAN +"Average Size save: " + getCompressedRatioPercent(datas) + "%" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + getCountCompressedFile(datas) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_WHITE + " ->" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_GREEN + getCountUncompressedFile(datas) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_CYAN +"Average Size save: " + getCompressedRatioPercent(datas) + "%" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + getCountCompressedFile(datas) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_WHITE + " ->" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_GREEN + ((int) getAllCompressedSize(datas)) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
         System.out.println(ColorText.ANSI_RED + "Uncompressed Size: " + getAllUnCompressedSize(datas) + " Go" + ColorText.ANSI_RESET);
         System.out.println(ColorText.ANSI_GREEN + "Compressed Size: " + getAllCompressedSize(datas) + " Go" + ColorText.ANSI_RESET);
 
