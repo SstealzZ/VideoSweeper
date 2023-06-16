@@ -97,7 +97,7 @@ public class Menu {
         
         System.out.println(ColorText.ANSI_CYAN + "Video files found: " + count + ColorText.ANSI_RESET);
         System.out.println(ColorText.ANSI_CYAN + "All Size: " + getAllSize(datas) + " Go");
-        System.out.println(ColorText.ANSI_CYAN +"Average Size save: " + getCompressedRatioPercent(datas) + "%" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + getCountCompressedFile(datas) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_WHITE + " ->" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_GREEN + ((int) getAllCompressedSize(datas)) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_CYAN +"Average Size save: " + (100 - getCompressedRatioPercent(datas)) + "%" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_RED + ((int) getOriginUnCompressedSize(datas)) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_WHITE + " ->" + ColorText.ANSI_WHITE + " (" + ColorText.ANSI_GREEN + ((int) getAllCompressedSize(datas)) + "Go" + ColorText.ANSI_WHITE + ")" + ColorText.ANSI_RESET);
         System.out.println(ColorText.ANSI_RED + "Uncompressed Size: " + getAllUnCompressedSize(datas) + " Go" + ColorText.ANSI_RESET);
         System.out.println(ColorText.ANSI_GREEN + "Compressed Size: " + getAllCompressedSize(datas) + " Go" + ColorText.ANSI_RESET);
 
@@ -136,19 +136,11 @@ public class Menu {
     }
 
     private float getCompressedRatioPercent(List<Data> datas) throws IOException {
-        float compressedRatio = 0;
-        int compressedDataCount = 0;
-    
-        for (Data data : datas) {
-            if (data.isCompressed()) {
-                compressedRatio += ((data.getSizeFile() - data.getCompressedSizeFile()) / (float) data.getSizeFile());
-                compressedDataCount++;
-            }
-        }
+        float compress_size = getAllCompressedSize(datas);
+        float uncompress_size = getOriginUnCompressedSize(datas);
 
-        compressedRatio = (compressedRatio / compressedDataCount) * 100;
-    
-        return compressedRatio;
+        float ratio = (compress_size / uncompress_size) * 100;
+        return Math.round(ratio * 100.0f) / 100.0f;
     }
     
     private int getCountCompressedFile(List<Data> datas) throws IOException {
@@ -183,6 +175,17 @@ public class Menu {
         float totalSizeInGB = totalSizeInKB / 1000000.0f;
         totalSizeInGB = Math.round(totalSizeInGB * 1000.0f) / 1000.0f;
         return totalSizeInGB;
+    }
+
+    private float getOriginUnCompressedSize(List<Data> datas) throws IOException {
+        long totalUnCompressedSizeInBytes = 0;
+        for (Data data : datas) {
+            totalUnCompressedSizeInBytes += data.getSizeFile();
+        }
+        float totalUnCompressedSizeInKB = totalUnCompressedSizeInBytes / 1000.0f;
+        float totalUnCompressedSizeInGB = totalUnCompressedSizeInKB / 1000000.0f;
+        totalUnCompressedSizeInGB = Math.round(totalUnCompressedSizeInGB * 1000.0f) / 1000.0f;
+        return totalUnCompressedSizeInGB;
     }
 
     private float getAllUnCompressedSize(List<Data> datas) throws IOException {
