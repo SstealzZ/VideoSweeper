@@ -66,15 +66,20 @@ public class Menu {
                     break;
                 case "4":
                     ColorText.clearScreen();
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "Duplicated data");
+                    printDuplicateData(datas, json);
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "End of Duplicated data");
+                    break;
+                case "5":
+                    ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Data Info");
                     printInfo(datas, fileExplorer);
                     ColorText.SeparateTerminalLine(State.SUCCESS, "End of info");
                     break;
-                case "5":
+                case "6":
                     ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Exit");
                     System.exit(0);
-                    break;
                 case "99":
                     ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Check if data is corrupted");
@@ -91,6 +96,22 @@ public class Menu {
             }
         }
     }
+
+    private void printDuplicateData(List<Data> datas, Json json) throws IOException {
+        List<Data> dataList = json.getData(); // Récupérer la liste de données une seule fois
+    
+        dataList.forEach(data -> {
+            try {
+                if (json.isAlreadyExist(data)) {
+                    System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_RESET);
+                    System.out.println(ColorText.ANSI_YELLOW + "[\u25BA] " + data.getPathFile() + ColorText.ANSI_RESET);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    
 
     private void printInfo(List<Data> datas, FileExplorer fileExplorer) throws IOException {
         Integer count = datas.size();
@@ -121,8 +142,9 @@ public class Menu {
         System.out.println(ColorText.ANSI_GREEN + "[1] - Compress all video files not compressed");
         System.out.println(ColorText.ANSI_YELLOW  + "[2] - List all video files found");
         System.out.println(ColorText.ANSI_YELLOW  + "[3] - List all video files not compressed");
-        System.out.println(ColorText.ANSI_YELLOW  + "[4] - Data Info");
-        System.out.println(ColorText.ANSI_RED  + "[5] - Exit" + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_YELLOW  + "[4] - Duplicated data ?");
+        System.out.println(ColorText.ANSI_YELLOW  + "[5] - Data Info");
+        System.out.println(ColorText.ANSI_RED  + "[6] - Exit" + ColorText.ANSI_RESET);
     }
 
     private int getFileNotCompressed(List<Data> datas) throws IOException{
