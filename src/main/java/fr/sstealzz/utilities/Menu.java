@@ -2,6 +2,7 @@ package fr.sstealzz.utilities;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -72,11 +73,17 @@ public class Menu {
                     break;
                 case "5":
                     ColorText.clearScreen();
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "Re-locate all files");
+                    printRelocateData(datas, json);
+                    ColorText.SeparateTerminalLine(State.SUCCESS, "End of re-locate");
+                    break;
+                case "6":
+                    ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Data Info");
                     printInfo(datas, fileExplorer);
                     ColorText.SeparateTerminalLine(State.SUCCESS, "End of info");
                     break;
-                case "6":
+                case "7":
                     ColorText.clearScreen();
                     ColorText.SeparateTerminalLine(State.SUCCESS, "Exit");
                     System.exit(0);
@@ -97,20 +104,58 @@ public class Menu {
         }
     }
 
-    private void printDuplicateData(List<Data> datas, Json json) throws IOException {
-        List<Data> dataList = json.getData(); // Récupérer la liste de données une seule fois
+
+    private void printRelocateData(List<Data> datas, Json json) throws IOException {
+        List<Data> dataList = json.getData();
+        List<Data> relocateData = new ArrayList<>();
+        int[] i = {1}; 
     
         dataList.forEach(data -> {
+            System.out.println(i[0] + "/" + dataList.size() + " - " + data.getNameFile());
+            File file = new File(data.getPathFile());
+            if (file.exists() == false) {
+                relocateData.add(data);
+            }
+            i[0]++;
+        });
+
+        ColorText.clearScreen();
+        ColorText.SeparateTerminalLine(State.SUCCESS, "Duplicated data");
+        relocateData.forEach(data -> {
             try {
-                if (json.isAlreadyExist(data)) {
-                    System.out.println(ColorText.ANSI_RED + "[**] " + data.getNameFile() + ColorText.ANSI_RESET);
-                    System.out.println(ColorText.ANSI_YELLOW + "[\u25BA] " + data.getPathFile() + ColorText.ANSI_RESET);
-                }
+                System.out.println(ColorText.ANSI_RED + "[\u26A0\uFE0F] " + data.getNameFile() + ColorText.ANSI_RESET);
+                json.modifyDataByName(data.getNameFile());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
+
+    private void printDuplicateData(List<Data> datas, Json json) throws IOException {
+        List<Data> dataList = json.getData();
+        List<Data> duplicateData = new ArrayList<>();
+        int[] i = {1}; 
+    
+        dataList.forEach(data -> {
+            try {
+                System.out.println(i[0] + "/" + dataList.size() + " - " + data.getNameFile());
+                if (json.isAlreadyExist(data)) {
+                    duplicateData.add(data);
+                }
+                i[0]++;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        ColorText.clearScreen();
+        ColorText.SeparateTerminalLine(State.SUCCESS, "Duplicated data");
+        duplicateData.forEach(data -> {
+            System.out.println(ColorText.ANSI_RED + "[\u26A0\uFE0F] " + data.getNameFile() + ColorText.ANSI_RESET);
+            System.out.println(ColorText.ANSI_YELLOW + "[\u25BA] " + data.getPathFile() + ColorText.ANSI_RESET);
+        });
+    }
+    
     
 
     private void printInfo(List<Data> datas, FileExplorer fileExplorer) throws IOException {
@@ -143,8 +188,9 @@ public class Menu {
         System.out.println(ColorText.ANSI_YELLOW  + "[2] - List all video files found");
         System.out.println(ColorText.ANSI_YELLOW  + "[3] - List all video files not compressed");
         System.out.println(ColorText.ANSI_YELLOW  + "[4] - Duplicated data ?");
-        System.out.println(ColorText.ANSI_YELLOW  + "[5] - Data Info");
-        System.out.println(ColorText.ANSI_RED  + "[6] - Exit" + ColorText.ANSI_RESET);
+        System.out.println(ColorText.ANSI_YELLOW  + "[5] - Re-locate all files");
+        System.out.println(ColorText.ANSI_YELLOW  + "[6] - Data Info");
+        System.out.println(ColorText.ANSI_RED  + "[7] - Exit" + ColorText.ANSI_RESET);
     }
 
     private int getFileNotCompressed(List<Data> datas) throws IOException{
