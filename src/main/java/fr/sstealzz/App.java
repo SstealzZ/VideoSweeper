@@ -2,7 +2,9 @@ package fr.sstealzz;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import fr.sstealzz.data.Data;
 import fr.sstealzz.data.FileExplorer;
@@ -15,7 +17,13 @@ public class App
         Json json = new Json("config.json");
         json.init();
         FileExplorer fileExplorer = new FileExplorer();
-        List<File> files = fileExplorer.findVideoFiles();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Do you want to scan new file ? (y/n)");
+        String answer = sc.nextLine();
+        List<File> files = new ArrayList<>();
+        if (answer.equals("y")) {
+            files = fileExplorer.findVideoFiles();
+        }
         List<Data> datas = json.getData();
         Menu init = new Menu();
         init.Init(files, datas, fileExplorer);
