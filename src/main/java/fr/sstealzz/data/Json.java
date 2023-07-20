@@ -94,6 +94,18 @@ public class Json {
         return null;
     }
 
+    public void modifyDataByName(String name) throws IOException {
+        Gson gson = new Gson();
+        Type dataListType = new TypeToken<List<Data>>() {}.getType();
+        List<Data> dataList = gson.fromJson(new FileReader(file), dataListType);
+        for (Data data : dataList) {
+            if (data.getNameFile().equals(name)) {
+                data.setPathFile(FileExplorer.findVideofileByName(name));
+            }
+        }
+        write(dataList);
+    }
+
     public List<String> getNames(String path) {
         List<String> names = new ArrayList<>();
 
@@ -111,11 +123,33 @@ public class Json {
         return names;
     }
 
-    public boolean isExist(String name) {
+    public List<String> getPaths(String path) {
+        List<String> paths = new ArrayList<>();
+
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(path)) {
+            Type type = new TypeToken<List<Data>>(){}.getType();
+            List<Data> dataList = gson.fromJson(reader, type);
+            for (Data data : dataList) {
+                paths.add(data.getPathFile());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return paths;
+    }
+
+    public boolean isExistName(String name) {
         List<String> names = getNames("config.json");
         return names.contains(name);
     }
-    
+
+    public boolean isExistPath(String path) {
+        List<String> paths = getPaths("config.json");
+        return paths.contains(path);
+    }
+
     public boolean isAlreadyExist(Data data) throws IOException{
         List<Data> dataList = getData();
         for (Data existingData : dataList) {
