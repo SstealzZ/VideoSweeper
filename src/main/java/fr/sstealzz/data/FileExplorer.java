@@ -35,7 +35,7 @@ public class FileExplorer {
                 if (file.isDirectory()) {
                     findVideoFilesRecursive(file, videoFiles);
                 } else if (file.getName().endsWith(".mkv") || file.getName().endsWith(".mp4")) {
-                    if (json.isExist(file.getName()) == false) {
+                    if (json.isExistName(file.getName()) == false) {
                         Data data = new Data("null", "null", 0, 0);
                         videoFiles.add(file);
                         data.setNameFile(file.getName());
@@ -54,6 +54,28 @@ public class FileExplorer {
             }
         }
     }
+
+    public static String findVideofileByName(String name) {
+        File currentDirectory = new File(".");
+        return findVideoFilesRecursiveByName(currentDirectory, name);
+    }
+    
+    private static String findVideoFilesRecursiveByName(File directory, String name) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    String filePath = findVideoFilesRecursiveByName(file, name);
+                    if (filePath != null) {
+                        return filePath;
+                    }
+                } else if (file.getName().equals(name)) {
+                    return file.getAbsolutePath();
+                }
+            }
+        }
+        return null;
+    }    
 
     public int getCount() {
         return count;
